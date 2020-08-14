@@ -33,10 +33,5 @@ export default defineComponent({
       store: useStore(),
     };
   },
-  method: {
-    importantMethod (any: any) {
-      console.log(any);
-    }
-  }
 });
 </script>
