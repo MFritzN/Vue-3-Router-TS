@@ -26,7 +26,6 @@
 </template>
 
 <script lang='ts'>
-import User from "@/model/user";
 import { defineComponent } from "vue";
 
 export default defineComponent({
