@@ -5,39 +5,41 @@
       <ul class="list-group">
         <li
           class="list-group-item"
-          :class="{ active: index == $store.state.currentIndex }"
-          v-for="(user, index) in $store.state.users"
+          :class="{ active: index == currentIndex }"
+          v-for="(user, index) in users"
           :key="index"
-          @click="$store.state.currentIndex = index"
+          @click="setActiveUser(user, index)"
         >
-          {{ user.name }}
+          {{ user.title }}
         </li>
       </ul>
 
-      <button class="m-3 btn btn-sm btn-danger" @click="$store.commit('removeAllUsers')">
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllExamples">
         Remove All
       </button>
     </div>
     <div class="col-md-6">
-      <div v-if="$store.state.currentIndex > -1">
-        <h4>User</h4>
+      <div v-if="currentExample">
+        <h4>Example</h4>
         <div>
-          <label><strong>Name:</strong></label> {{ $store.state.users[$store.state.currentIndex].name }}
+          <label><strong>Title:</strong></label> {{ currentExample.title }}
         </div>
         <div>
           <label><strong>Description:</strong></label>
-          {{ $store.state.users[$store.state.currentIndex].description }}
+          {{ currentExample.description }}
         </div>
 
-        <button @click="$router.push('/user/' + $store.state.currentIndex)" class="badge badge-warning">
-          Edit
-        </button>
         <router-view></router-view>
-
+        <a
+          class="badge badge-warning"
+          :href="'/user/' + currentExample.id"
+        >
+          Edit
+        </a>
       </div>
       <div v-else>
         <br />
-        <p>Click for details...</p>
+        <p>Please click on a Example...</p>
       </div>
     </div>
   </div>
@@ -45,9 +47,44 @@
 
 <script lang='ts'>
 import { defineComponent } from 'vue';
+import { User } from '@/model/user'
 
 export default defineComponent({
-  name: 'UserList',
+  name: 'UserListCom',
+  data () {
+    return{
+      users: [] as Array<User>,
+      currentUser: null,
+      currentIndex: -1,
+    };
+  },
+  methods: {
+    addUser(user: User): void {
+      user.id = this.users.length;
+      this.users.push(user);
+    },
+    setActiveUser(index: number): void {
+      this.currentIndex = -1;
+    },
+    removeUser(index: number): void {
+      if (index > -1) {
+        this.users.splice(index, 1);
+      }
+      for (index = 0; index < this.users.length; index++) {
+        this.users[index].id = index;
+      }
+      this.currentIndex = -1;
+    },
+  },
+  computed: {
+    currentUser(): (User|null) {
+      if (this.currentIndex < 0) {
+        return null;
+      } else {
+        return this.users[this.currentIndex];
+      }
+    }
+  },
 });
 
 </script>

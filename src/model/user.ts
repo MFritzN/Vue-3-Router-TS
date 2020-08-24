@@ -1,12 +1,13 @@
-export default class User {
-  public name: string;
+export class User {
 
-  public description: string;
+    public name: string;
 
-  public id = -1;
+    public description: string;
 
-  constructor(name: string, description: string) {
-    this.name = name;
-    this.description = description;
-  }
+    public id: number = -1;
+
+    constructor(name: string, description: string,) {
+        this.name = name;
+        this.description = description;
+    }
 }

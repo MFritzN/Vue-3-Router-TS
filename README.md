@@ -1,4 +1,4 @@
-# compare-project
+# my-project
 
 ## Project setup
 ```
