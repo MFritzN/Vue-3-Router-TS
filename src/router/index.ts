@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import UserList from '@/components/UserList.vue';
-import UserCom from '@/components/UserCom.vue';
-import AddUser from '@/components/AddUser.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -10,13 +7,12 @@ const router = createRouter({
       path: '/',
       alias: '/user-list',
       name: 'userList',
-      component: UserList,
-      props: true,
+      component: () => import('../components/UsersList.vue'),
       children: [
         {
-          path: '/user/:id',
+          path: 'user/:id',
           name: 'user-details',
-          component: UserCom,
+          component: () => import('../components/User.vue'),
           props: true,
         },
       ],
@@ -24,7 +20,7 @@ const router = createRouter({
     {
       path: '/add',
       name: 'add',
-      component: AddUser,
+      component: () => import('../components/AddUser.vue'),
       props: true,
     },
   ],
